@@ -4,8 +4,19 @@
 import '../../Packages/Packages.dart';
 
 class SetPassword extends StatelessWidget {
+  RegExp regex = RegExp(r'^(?=.*?[A-Z]).{8,}$');
+  /*
+r'^
+  (?=.*[A-Z])       // should contain at least one upper case
+  (?=.*[a-z])       // should contain at least one lower case
+  (?=.*?[0-9])      // should contain at least one digit
+  (?=.*?[!@#\$&*~]) // should contain at least one Special character
+  .{8,}             // Must be at least 8 characters in length  
+$
+  */
   @override
   Widget build(BuildContext context) {
+          print("regex======= $regex");
     return Scaffold(
       body: ListView(
         children: [
@@ -46,10 +57,10 @@ class SetPassword extends StatelessWidget {
                       builder: (PasswordController) {
                         return CustomTextFaild(
                           controller: PasswordController.passwordController,
-                          hintText: "8+ Characters, 1Capital letter",
+                          hintText: "8+ Characters, 1 Capital letter",
                           validator: (value) {
-                            if (value!.length < 8) {
-                              return "The Password Shulde be more than 8";
+                            if (!regex.hasMatch(value!)) {
+                              return "The Password Shulde be 8+ Characters, 1 Capital letter";
                             } else {
                               return "";
                             }
